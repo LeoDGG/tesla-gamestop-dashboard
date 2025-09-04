@@ -3,10 +3,6 @@
 ## Extracción de datos de acciones de Tesla utilizando yfinance
 
 ### Parámetros
-TICKER   = "TSLA"
-START    = "2010-06-29"   # Fecha aproximada de IPO de Tesla
-END      = None           # Hasta la fecha actual
-INTERVAL = "1d"           # Diario
 
 def fetch_tsla_prices(ticker: str,
                       start: str = None,
