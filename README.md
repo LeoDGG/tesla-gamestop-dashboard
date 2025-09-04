@@ -2,41 +2,51 @@
 
 ## Extracción de datos de acciones de Tesla utilizando yfinance
 
-### Parámetros
+#!/usr/bin/env python3
+import os
 
-    """
-    Descarga el historial de precios ajustados de TSLA
-    y devuelve un DataFrame con ['Date', 'Close_USD'].
-    """
-    stock = yf.Ticker(ticker)
-    hist  = stock.history(start=start, end=end, interval=interval)
+import yfinance as yf
+import pandas as pd
+import matplotlib.pyplot as plt
 
-    # Preparamos el DataFrame
-    df = hist[["Close"]].reset_index()
-    df.rename(columns={"Close": "Close_USD"}, inplace=True)
+### CONFIGURACIÓN
+TICKER       = "TSLA"
+START_DATE   = "2010-06-29"
+OUTPUT_DIR   = "screenshots"
+MD_FILENAME  = f"{OUTPUT_DIR}/01_tsla_tail.md"
+PNG_FILENAME = f"{OUTPUT_DIR}/01_tsla_prices.png"
+
+def fetch_tsla_close(ticker: str, start: str) -> pd.DataFrame:
+    """Descarga el precio de cierre ajustado y devuelve DataFrame con Date y Close_USD."""
+    df = (
+        yf.Ticker(ticker)
+          .history(start=start)[["Close"]]
+          .rename(columns={"Close": "Close_USD"})
+          .reset_index()
+    )
     return df
 
-def main():
-    # 1) Descargar datos
-    df = fetch_tsla_prices(TICKER, START, END, INTERVAL)
-
-    # 2) Mostrar información básica
-    print(f"Registros descargados: {len(df)}")
-    print(f"Rango de fechas: {df['Date'].min().date()} – {df['Date'].max().date()}\n")
-
-    # 3) Últimas 5 filas
-    print("Últimas 5 filas de precios TSLA:")
-    print(df.tail(5).to_string(index=False))
-
-    # 4) Gráfica rápida (opcional)
-    plt.figure(figsize=(8,4))
-    plt.plot(df["Date"], df["Close_USD"], label="Close Adjusted")
-    plt.title("TSLA Close Adjusted Prices")
+def save_outputs(df: pd.DataFrame):
+    """Crea carpeta, exporta tabla Markdown y gráfico PNG."""
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    
+    ### Últimas 5 filas en Markdown
+    with open(MD_FILENAME, "w", encoding="utf-8") as f:
+        f.write(df.tail(5).to_markdown(index=False))
+    
+    ### Gráfica de toda la serie
+    plt.figure(figsize=(8, 4))
+    plt.plot(df["Date"], df["Close_USD"], lw=1, label=TICKER)
+    plt.title(f"{TICKER} Adjusted Close Prices")
     plt.xlabel("Date")
     plt.ylabel("Close (USD)")
-    plt.legend()
     plt.tight_layout()
-    plt.show()
+    plt.savefig(PNG_FILENAME, dpi=150)
+
+def main():
+    df = fetch_tsla_close(TICKER, START_DATE)
+    print(df.tail(5).to_string(index=False))
+    save_outputs(df)
 
 if __name__ == "__main__":
     main()
