@@ -1,11 +1,12 @@
 # IBM-2
-#!/usr/bin/env python3
 
 import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Parámetros
+## Extracción de datos de acciones de Tesla utilizando yfinance
+
+### Parámetros
 TICKER   = "TSLA"
 START    = "2010-06-29"   # Fecha aproximada de IPO de Tesla
 END      = None           # Hasta la fecha actual
