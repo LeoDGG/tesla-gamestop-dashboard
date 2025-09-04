@@ -4,10 +4,6 @@
 
 ### Parámetros
 
-def fetch_tsla_prices(ticker: str,
-                      start: str = None,
-                      end: str = None,
-                      interval: str = "1d") -> pd.DataFrame:
     """
     Descarga el historial de precios ajustados de TSLA
     y devuelve un DataFrame con ['Date', 'Close_USD'].
