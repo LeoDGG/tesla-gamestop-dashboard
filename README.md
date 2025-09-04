@@ -1,9 +1,5 @@
 # IBM-2
 
-import yfinance as yf
-import pandas as pd
-import matplotlib.pyplot as plt
-
 ## Extracción de datos de acciones de Tesla utilizando yfinance
 
 ### Parámetros
