@@ -2,19 +2,6 @@
 
 ## Extracción de datos de acciones de Tesla utilizando yfinance
 
-#!/usr/bin/env python3
-import os
-
-import yfinance as yf
-import pandas as pd
-import matplotlib.pyplot as plt
-
-### CONFIGURACIÓN
-TICKER       = "TSLA"
-START_DATE   = "2010-06-29"
-OUTPUT_DIR   = "screenshots"
-MD_FILENAME  = f"{OUTPUT_DIR}/01_tsla_tail.md"
-PNG_FILENAME = f"{OUTPUT_DIR}/01_tsla_prices.png"
 
 def fetch_tsla_close(ticker: str, start: str) -> pd.DataFrame:
     """Descarga el precio de cierre ajustado y devuelve DataFrame con Date y Close_USD."""
